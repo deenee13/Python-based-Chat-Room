@@ -1,4 +1,4 @@
-# Socket is the endpoint that receives data 
+# Socket is the endpoint that receives data
 import socket
 import threading
 import time
@@ -11,16 +11,11 @@ NUMBER_OF_THREADS = 2
 # Thread number
 JOB_NUMBER = [1, 2]
 
-# It returns the upperbound limit on the number of items that can be placed in queue 
-queue = Queue ()
+# It returns the upperbound limit of queue
+queue = Queue()
 
 # Create and empty dictionary
-connection_address = { }
-
-
-
-
-
+connection_address = {}
 
 # Where AF_INET Corresponds to the IPV4 and SOCK_STREAM Corresponds to TCP
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -29,32 +24,22 @@ s.bind((socket.gethostname(), 1234))
 # listen queue of 5
 s.listen(5)
 
-
-
-#serversocket, address = s.accept()
-#print("Connection has been established in socket",address)
-#serversocket.send(b"Welcome to the server!" )
-#serversocket.close()
-
-# <TODO:> Delete dictionary at the end
-
 # Handling connection from multiple clients and saving them in dictionary
 def accepting_connections():
+
     print("In accepting_connection function")
     while True:
         try:
             serversocket, address = s.accept()
-          
             s.setblocking(1)  # It prevents timeout from happening
 
             # Store connections and address in to dictionary
             connection_address.update({serversocket: address})
-            #print(connection_address)
-            print("Connection has been established in socket",address)
-
+            # print(connection_address)
+            print("Connection has been established in socket", address)
 
         except:
-            print("Error accepting Connections") 
+            print("Error accepting Connections")
 
 # Sending Command to all connected client
 def sending_command():
@@ -65,27 +50,28 @@ def sending_command():
             time.sleep(10)
             # looping through the Dictionary
             for x in connection_address:
-                
-                temp_serversocket = x       #Storing the keyvalue in temporary variable
+
+                # Store the keyvalue in temporary variable
+                temp_serversocket = x
                 print(temp_serversocket)
-                t = time.localtime()        # Fetching the local time
-                current_time = time.strftime("%H:%M:%S", t)  # convert the local time in to the specified format 
+                t = time.localtime()   # Fetching the local time
+
+                # convert the local time in to the specified format
+                current_time = time.strftime("%H:%M:%S", t)
                 print("current time: %s", current_time)
-                temp_serversocket.send(str.encode(current_time)) # Send to the particular client
+                temp_serversocket.send(str.encode(current_time))  # Send to the particular client
 
         except:
-            print("Error Sending Command") 
+            print("Error Sending Command")
             del connection_address[x]
             pass
-                
-            
 
 # Creating Threads
 def create_thread():
     print(" In Create Thread function")
-    for  _ in range (NUMBER_OF_THREADS):
+    for _ in range(NUMBER_OF_THREADS):
         t = threading.Thread(target=work)
-        t.daemon = True # It ends the thread as program ends to save memory
+        t.daemon = True   # It ends the thread as program ends to save memory
         t.start()
 
 
@@ -96,7 +82,7 @@ def create_jobs():
 
     queue.join()
 
-# Get the thread from queue and do the job 
+# Get the thread from queue and do the job
 def work():
     print(" In work Function")
     while True:
@@ -110,12 +96,3 @@ def work():
 
 create_thread()
 create_jobs()
-
-
-
-
-
-
-
-
-

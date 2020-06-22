@@ -1,4 +1,4 @@
-# Socket is the endpoint that receives data that is receives that commmunication
+# Socket is the endpoint between receiving and sending data
 import socket
 import time
 
@@ -13,5 +13,3 @@ while True:
 		break
 
 	print(msg)
-
-

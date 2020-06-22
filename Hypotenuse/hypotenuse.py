@@ -27,7 +27,7 @@ def hypotenuse_calc():
                 sqr_breadth = (int(arg) * int(arg))
 
         # print("Value of Hypotenuse:", sqrt(sqr_length + sqr_breadth))
-
+        
     except getopt.GetoptError as err:
         print(err)
 

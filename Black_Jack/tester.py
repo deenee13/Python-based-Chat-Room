@@ -61,7 +61,12 @@ def convert_to_card_value(hand):
     return(hand_rebase)
     print(hand)
 
+# This function will check the Score and print final verdict of the game
+def score_check(final_data):
+            for (key, value) in final_data.items() :
+                print(key , " :: ", value )
+
 
 if __name__ == '__main__':
-    hand = [11, 0, 0]
-    total(hand)
+    hand = {'User 1': [1, 2, 3] , 'User 2' : [4, 5, 6] , 'User 3' : [7, 8, 9]}
+    score_check(hand)

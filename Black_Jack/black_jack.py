@@ -111,7 +111,7 @@ class Black_Jack:
             else:
                 print(f"Final Total of the user is {self.total(user_hand)}")
                 break
-        return(self.total(user_hand))
+        return(user_hand)
 
 
 # This function will be called when user wants to draw 1 more card again
@@ -129,20 +129,29 @@ class Black_Jack:
 
 # This is the function which will take care of the dealer's  game
     def dealer(self, dealers_hand):
-        print(f"Dealer reveals  his/her Hand:{dealers_hand}")
+        print(f"************Dealer reveals  his/her Hand:{dealers_hand}****************")
         print(f"Total of the Dealer is {self.total(dealers_hand)}")
         while self.total(dealers_hand) < 17:
             dealers_hand = self.hit(dealers_hand)
             print(
                 f"Dealer's Hand {dealers_hand} with the Updated total of {self.total(dealers_hand)}")
-        return(self.total(dealers_hand))
+        return(dealers_hand)
 
 # This function will check the Score and print final verdict of the game
-    def score_check(self, dealers_total, users_data):
-        for i in range(len(users_data)):
-            for j in range(i + 1, len(users_data)):
-                if users_data[i] > users_data[j]:
-                    print(users_data[i])
+    def score_check(self, final_data):
+            h_value = 0
+            h_key = 0
+            for (key, value) in final_data.items() :
+                if (self.total(value) > h_value and self.total(value) <= 21):
+                    h_value = self.total(value)
+                    h_key = key
+                    print(key , " :: ", value )
+            if (h_value == 21 and  h_key == 'Dealer'):
+                print(f'{h_key} got Black Jack Users lost the game')
+            elif (h_value == 21 ):
+                print(f'{h_key} got Black Jack and won the game')
+            print(f'Player who won the game is {h_key} with total of {h_value}')
+                
 
 
 def game():
@@ -150,21 +159,25 @@ def game():
     # Total number of player's going to play the game
     players = int(input("Number of User going to play: "))
     dealers_hand = []
-    users_data = []
+    final_data = {}
     count = 0   # To keep count on number of player's playing the game
     object = Black_Jack()
     dealers_hand = object.deal()
+    # print(f"Dealer's Hand before rebase is {dealers_hand}")
+    dealers_hand = object.convert_to_card_value(dealers_hand)
+    # print(f"Dealer's Hand after rebase is {dealers_hand}")
     while (players != 0):
         count += 1
         print("Dealer's First Card is", dealers_hand[0])
         print(
             f"******************* USER-{count} in play ***********************")
-        users_data.append(object.user())
+        final_data.update(  {f'User {count}' : object.user()})
         players += -1
 
-    dealers_total = object.dealer(dealers_hand)
-    object.score_check(dealers_total, users_data)
-    print(users_data.sort())
+    dealers_hand = object.dealer(dealers_hand)
+    final_data.update(  {f'Dealer' : dealers_hand})
+    object.score_check(final_data)
+    print(final_data)
 
 
 if __name__ == '__main__':

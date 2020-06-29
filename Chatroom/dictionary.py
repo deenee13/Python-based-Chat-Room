@@ -39,4 +39,4 @@ t = time.localtime()
 current_time = time.strftime("%H:%M:%S", t)
 print("current time: %s", current_time)
 
-# Append Dictionary with for loop 
+

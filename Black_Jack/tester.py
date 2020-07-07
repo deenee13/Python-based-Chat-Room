@@ -67,6 +67,23 @@ def score_check(final_data):
                 print(key , " :: ", value )
 
 
+# Naming the cards  <TODO: Write this function afterwards>
+def naming_card(hand):
+    display_hand = []
+    for card in hand:
+        house = card/13
+        card_number = card % 13
+        if house == 0:
+            temp = 'Clubs'
+        elif house == 1:
+            temp = 'Spades'
+        elif house == 2:
+            temp = 'Diamonds'
+        elif house == 3:
+            temp = 'Hearts'
+
+
+
 if __name__ == '__main__':
     hand = {'User 1': [1, 2, 3] , 'User 2' : [4, 5, 6] , 'User 3' : [7, 8, 9]}
     score_check(hand)

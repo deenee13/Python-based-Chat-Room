@@ -1,15 +1,46 @@
-# Socket is the endpoint between receiving and sending data
 import socket
-import time
+import select
+import sys
+
 
 # Where AF_INET Corresponds to the IPV4 and SOCK_STREAM Corresponds to TCP
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((socket.gethostname(), 1234))
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-while True:
-	msg = s.recv(1024)
-	if len(msg) <= 0:
-		print("Error Case")
-		break
+# checks whether sufficient arguments have been provided 
+if len(sys.argv) != 3: 
+    print(" Sufficient arguments have not been provided")
+    exit()
 
-	print(msg)
+# takes the first argument from command prompt as IP address 
+iP_address = str(sys.argv[1])
+
+# takes second argument from command prompt as port number 
+port = int(sys.argv[2]) 
+
+# Connect to the server
+client.connect((iP_address, port))
+
+
+while True: 
+  
+    # maintains a list of possible input streams 
+    sockets_list = [sys.stdin, client]
+    read_sockets,write_socket, error_socket = select.select(sockets_list,[],[]) 
+  
+    for socks in read_sockets: 
+        if socks == client: 
+            message = socks.recv(2048) 
+            print(message)
+            print("HERE")
+            import time
+            time.sleep(5)
+            break
+        else:
+            print("THERE")
+            message = sys.stdin.readline() 
+            client.send(str.encode(message)) 
+            sys.stdout.write("<You>") 
+            sys.stdout.write(message) 
+            sys.stdout.flush() 
+client.close()

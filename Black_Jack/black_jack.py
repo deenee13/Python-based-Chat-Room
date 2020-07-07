@@ -80,7 +80,7 @@ class Black_Jack:
                 else:
                     total += 11
 
-        print(f"Total of the rebased Hand {hand} is {total}")
+        #  print(f"Total of the rebased Hand {hand} is {total}")
         return total
 
     def convert_to_card_value(self, hand):

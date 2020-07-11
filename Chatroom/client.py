@@ -19,7 +19,10 @@ iP_address = str(sys.argv[1])
 port = int(sys.argv[2]) 
 
 # Connect to the server
-client.connect((iP_address, port))
+client.connect((iP_address, port)) 
+
+# Receive Functionality will not be blocking
+client.setblocking(False)
 
 
 while True: 
@@ -30,15 +33,15 @@ while True:
   
     for socks in read_sockets: 
         if socks == client: 
-            message = socks.recv(2048) 
-            print(message)
+            message = socks.recv(2048)
+            print((str(message)))
             print("HERE")
             import time
             time.sleep(5)
-            break
         else:
             print("THERE")
             message = sys.stdin.readline() 
+            print(f'message to send {message}')
             client.send(str.encode(message)) 
             sys.stdout.write("<You>") 
             sys.stdout.write(message) 

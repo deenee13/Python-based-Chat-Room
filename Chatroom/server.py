@@ -1,3 +1,9 @@
+# <TODO: make the chatroom look more clean>
+# <TODO: Apply the  pep8 format to it>
+# <TODO: Move Ahead with the BlackJack Game>
+
+
+
 import socket
 import sys
 import select
@@ -67,7 +73,7 @@ def sending_command(conn, address):
 
                 # Message received and the address of the client
                 print("address of the client is", address[0] )
-                print("Along with the message", message)
+                print(f"Along with the message is {message}")
                 broadcast(message, address)
             
             else:
@@ -93,10 +99,17 @@ def broadcast(message, myaddress):
         if address != myaddress:
             conn = list_of_clients[address]
             try:
+                print(f'print message to send in broadcast function {message}\n')
                 print(f'Sending message to {conn}')
-                conn.send("HELLO")
+                
+                # convert the message which is in bytes into string format 
+                message = str(message)
+
+                # Send the string format message to client
+                conn.send(str.encode(message))
             except:
                 print("Inside the exception condition ")
+                print(f"Inside the exception message{conn}")
                 conn.close()
         else:
             print(f"Cannot send message to self {address} {myaddress}")

@@ -34,14 +34,9 @@ while True:
     for socks in read_sockets: 
         if socks == client: 
             message = socks.recv(2048)
-            print((str(message)))
-            print("HERE")
-            import time
-            time.sleep(5)
+            print(((message))) 
         else:
-            print("THERE")
             message = sys.stdin.readline() 
-            print(f'message to send {message}')
             client.send(str.encode(message)) 
             sys.stdout.write("<You>") 
             sys.stdout.write(message) 

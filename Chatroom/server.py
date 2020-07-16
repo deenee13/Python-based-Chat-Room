@@ -44,7 +44,8 @@ def accepting_connections():
     while True:
         try:
             conn, address = server.accept()
-            server.setblocking(1)  # It prevents timeout from happening
+            # It prevents timeout from happening
+            server.setblocking(1) 
             print(f"Connection value {conn} and address {address}")
             # Store connections and address in to dictionary
             list_of_clients.update({address: conn})

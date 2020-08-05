@@ -49,10 +49,10 @@ def accepting_connections():
                     conn, address = server.accept()
                     # It prevents timeout from happening
                     server.setblocking(1)
-                    print(f"Connection value {conn} and address {address}")
+                    ## print(f"Connection value {conn} and address {address}")
                     # Store connections and address in to dictionary
                     list_of_clients.update({address: conn})
-                    print(list_of_clients)
+                    ## print(list_of_clients)
                     
                     # Update the Sockets list
                     sockets_list.append(conn)  ### This may be of no use ###
@@ -79,6 +79,7 @@ def accepting_connections():
 
 
 def receive_message(conn):
+    print(f"In receive message function")
     try:
         message = conn.recv(2048)
 
@@ -106,12 +107,14 @@ def sending_command(conn, address):
                     # Message received and the address of the client
                     print(f"address of the client {address_1[0]} along with port number {address_1[1]}")
                     print(f"Message from the client is {message}")
-                broadcast(message, address)
+                broadcast(message, address) ##  Debug
 
             else:
+                print("In else")
                 # link is broken remove the connection
                 remove(conn)
         except BaseException:
+            print("In exception")
             continue
 
 

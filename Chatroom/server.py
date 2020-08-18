@@ -27,7 +27,7 @@ server.bind((iP_address, port))
 # the convenience
 server.listen(5)
 
-# List to maintain the number of clients joining the server
+# List to maintain the number of clients joining the server which will contain its address and connection
 list_of_clients = {} 
 
 # list to maintain the username along with the address
@@ -41,7 +41,7 @@ def accepting_connections():
     print("In accepting_connection function")
     while True:
         try:
-            sockets_list = [sys.stdin, server]
+            sockets_list = [sys.stdin, server]  # List of all the clients joining the server
             read_sockets, write_socket, error_socket = select.select(
             sockets_list, [], [])
             for notified_socket in read_sockets:
@@ -49,7 +49,7 @@ def accepting_connections():
                     conn, address = server.accept()
                     # It prevents timeout from happening
                     server.setblocking(1)
-                    ## print(f"Connection value {conn} and address {address}")
+                    print(f"Address  value {conn} ")
                     # Store connections and address in to dictionary
                     list_of_clients.update({address: conn})
                     ## print(list_of_clients)
@@ -77,7 +77,7 @@ def accepting_connections():
     server.close()
 
 
-
+# This function is to receive messages  (Perfectly correct)
 def receive_message(conn):
     print(f"In receive message function")
     try:
@@ -100,19 +100,22 @@ def sending_command(conn, address):
     while True:
         try:
             message = receive_message(conn)
+            print(f"Message received in Sending Command function is {message}")
+            message = str(message)
             for username in list_of_username.keys():
-                if message == username:
+                # print(f"Username out of if statement {username}")
+                if username == message:
                     print(username)
                     address_1 = list_of_username[username]
                     # Message received and the address of the client
                     print(f"address of the client {address_1[0]} along with port number {address_1[1]}")
                     print(f"Message from the client is {message}")
-                broadcast(message, address) ##  Debug
+                    broadcast(message, address_1[1]) 
 
-            else:
-                print("In else")
-                # link is broken remove the connection
-                remove(conn)
+                else:
+                    print("In else")
+                    # link is broken remove the connection
+                    remove(conn)
         except BaseException:
             print("In exception")
             continue
@@ -132,8 +135,8 @@ def broadcast(message, myaddress):
     print(f'Here is the List of keys {list_of_clients.keys()}')
 
     for address in list_of_clients.keys():
-        print(address)
-        if address != myaddress:
+        print(address[1])
+        if address[1] == myaddress:
             conn = list_of_clients[address]
             try:
                 ##  print(

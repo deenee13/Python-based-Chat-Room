@@ -30,6 +30,11 @@ client.setblocking(False)
 # Send the username to the server
 client.send(str.encode(my_username))
 
+# make dictionary with username as key 
+list_of_username = {}
+
+list_of_username.update({client:my_username})
+
 while True:
 
     # maintains a list of possible input streams

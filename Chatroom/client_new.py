@@ -41,7 +41,7 @@ while True:
         message = message.encode("utf-8")
         message_header = f"{len(message):<{2048}}".encode("utf-8")
         client.send(message_header + message)
-    
+
     try:
         while True:
             # Receive things
@@ -58,16 +58,12 @@ while True:
             message = client.recv(message_length).decode("utf-8")
             print(f"{username} > {message}")
 
-
     except IOError as e:
         if e.errno != errno.EAGAIN or e.errno != errno.EWOULDBLOCK:
-            print('reading error',str(e))
+            print('reading error', str(e))
             sys.exit()
         continue
 
     except Exception as e:
-        print('general eror',str(e))
+        print('general eror', str(e))
         sys.exit()
-
-
-
